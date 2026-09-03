@@ -34,13 +34,13 @@ class AvailabilityStubVerifiedTest {
         when(trajetRepository.find(trajetId)).thenReturn(Optional.of(trajet));
         when(trajetSeatRepository.countAvailableSeats(trajetId)).thenReturn(0);
 
-        PurchaseTicketApplicationService service = new PurchaseTicketApplicationService(
-                trajetRepository, trajetSeatRepository, FakePaymentGateway.alwaysSucceeds(),
+        PurchaseTicketApplicationService sut = new PurchaseTicketApplicationService(
+                trajetRepository, trajetSeatRepository, PaymentGatewayStub.succeeding(),
                 new InMemoryTicketRepository(), emailSender
         );
 
         try {
-            service.purchase(new Customer(CustomerId.newId(), "bob@example.com", false), trajetId,
+            sut.purchase(new Customer(CustomerId.newId(), "bob@example.com", false), trajetId,
                     List.of(TicketRequest.automaticSeat(new Passenger(PassengerId.newId(), "Bob", 30))));
         } catch (NotEnoughAvailableSeatsException expected) {
             // ok

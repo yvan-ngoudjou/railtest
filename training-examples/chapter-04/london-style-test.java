@@ -40,11 +40,11 @@ class PurchaseTicketLondonStyleTest {
         when(trajetSeatRepository.findAvailableSeats(trajetId, 1)).thenReturn(List.of(availableSeat));
         when(paymentGateway.pay(eq(customer), any())).thenReturn(PaymentResult.succeeded());
 
-        PurchaseTicketApplicationService service = new PurchaseTicketApplicationService(
+        PurchaseTicketApplicationService sut = new PurchaseTicketApplicationService(
                 trajetRepository, trajetSeatRepository, paymentGateway, ticketRepository, emailSender
         );
 
-        service.purchase(customer, trajetId, List.of(TicketRequest.automaticSeat(adult)));
+        sut.purchase(customer, trajetId, List.of(TicketRequest.automaticSeat(adult)));
 
         // Chaque interaction jugée "importante" est vérifiée explicitement.
         verify(trajetSeatRepository).saveAll(List.of(availableSeat));

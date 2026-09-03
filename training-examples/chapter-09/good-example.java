@@ -40,11 +40,11 @@ class PaymentInterSystemGoodExampleTest {
         Customer customer = new Customer(CustomerId.newId(), "alice@example.com", true);
         when(paymentGateway.pay(eq(customer), eq(Money.euros(90)))).thenReturn(PaymentResult.succeeded());
 
-        PurchaseTicketApplicationService service = new PurchaseTicketApplicationService(
+        PurchaseTicketApplicationService sut = new PurchaseTicketApplicationService(
                 trajetRepository, trajetSeatRepository, paymentGateway, new InMemoryTicketRepository(), emailSender
         );
 
-        service.purchase(customer, trajetId,
+        sut.purchase(customer, trajetId,
                 List.of(TicketRequest.automaticSeat(new Passenger(PassengerId.newId(), "Alice", 30))));
 
         // L'appel à une dépendance externe réelle (le paiement) EST le comportement observable.

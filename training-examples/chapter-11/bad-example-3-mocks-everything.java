@@ -41,11 +41,11 @@ class SeatAssignmentAlgorithmBadExampleTest {
         );
         when(paymentGateway.pay(any(), any())).thenReturn(PaymentResult.succeeded());
 
-        PurchaseTicketApplicationService service = new PurchaseTicketApplicationService(
+        PurchaseTicketApplicationService sut = new PurchaseTicketApplicationService(
                 trajetRepository, trajetSeatRepository, paymentGateway, ticketRepository, emailSender
         );
 
-        service.purchase(new Customer(CustomerId.newId(), "bob@example.com", false), trajetId, List.of(
+        sut.purchase(new Customer(CustomerId.newId(), "bob@example.com", false), trajetId, List.of(
                 TicketRequest.automaticSeat(new Passenger(PassengerId.newId(), "A", 30)),
                 TicketRequest.automaticSeat(new Passenger(PassengerId.newId(), "B", 30))
         ));

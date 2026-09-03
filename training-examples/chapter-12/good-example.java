@@ -32,12 +32,12 @@ class ReducedArrangeGoodExampleTest {
                 Money.euros(100), TrainId.newId()));
         trajetSeatRepository.saveAll(List.of(new TrajetSeat(trajetId, SeatId.newId())));
 
-        PurchaseTicketApplicationService service = new PurchaseTicketApplicationService(
-                trajetRepository, trajetSeatRepository, FakePaymentGateway.alwaysSucceeds(),
+        PurchaseTicketApplicationService sut = new PurchaseTicketApplicationService(
+                trajetRepository, trajetSeatRepository, PaymentGatewayStub.succeeding(),
                 new InMemoryTicketRepository(), emailSender
         );
 
-        PurchaseResult result = service.purchase(
+        PurchaseResult result = sut.purchase(
                 new Customer(CustomerId.newId(), "bob@example.com", false), trajetId,
                 List.of(TicketRequest.automaticSeat(new Passenger(PassengerId.newId(), "Bob", 30)))
         );

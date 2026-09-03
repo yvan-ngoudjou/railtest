@@ -39,12 +39,12 @@ class MockVsStubGoodExampleTest {
         when(trajetRepository.find(trajetId)).thenReturn(Optional.of(trajet));
         when(trajetSeatRepository.countAvailableSeats(trajetId)).thenReturn(0); // Stub
 
-        PurchaseTicketApplicationService service = new PurchaseTicketApplicationService(
-                trajetRepository, trajetSeatRepository, FakePaymentGateway.alwaysSucceeds(),
+        PurchaseTicketApplicationService sut = new PurchaseTicketApplicationService(
+                trajetRepository, trajetSeatRepository, PaymentGatewayStub.succeeding(),
                 new InMemoryTicketRepository(), emailSender
         );
 
-        assertThrows(NotEnoughAvailableSeatsException.class, () -> service.purchase(
+        assertThrows(NotEnoughAvailableSeatsException.class, () -> sut.purchase(
                 customer, trajetId,
                 List.of(TicketRequest.automaticSeat(new Passenger(PassengerId.newId(), "Bob", 30)))
         ));
@@ -62,12 +62,12 @@ class MockVsStubGoodExampleTest {
         when(trajetSeatRepository.findAvailableSeats(trajetId, 1))
                 .thenReturn(List.of(new TrajetSeat(trajetId, seatId)));
 
-        PurchaseTicketApplicationService service = new PurchaseTicketApplicationService(
-                trajetRepository, trajetSeatRepository, FakePaymentGateway.alwaysSucceeds(),
+        PurchaseTicketApplicationService sut = new PurchaseTicketApplicationService(
+                trajetRepository, trajetSeatRepository, PaymentGatewayStub.succeeding(),
                 new InMemoryTicketRepository(), emailSender
         );
 
-        service.purchase(customer, trajetId,
+        sut.purchase(customer, trajetId,
                 List.of(TicketRequest.automaticSeat(new Passenger(PassengerId.newId(), "Bob", 30))));
 
         // Ici, verify est légitime : l'envoi de la confirmation EST le comportement attendu.

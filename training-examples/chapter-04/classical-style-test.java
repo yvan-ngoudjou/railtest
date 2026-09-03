@@ -40,11 +40,11 @@ class PurchaseTicketClassicalStyleTest {
         trajetSeatRepository.saveAll(List.of(new TrajetSeat(trajetId, seatId)));
         Customer customer = new Customer(CustomerId.newId(), "bob@example.com", false);
 
-        PurchaseTicketApplicationService service = new PurchaseTicketApplicationService(
-                trajetRepository, trajetSeatRepository, FakePaymentGateway.alwaysSucceeds(), ticketRepository, emailSender
+        PurchaseTicketApplicationService sut = new PurchaseTicketApplicationService(
+                trajetRepository, trajetSeatRepository, PaymentGatewayStub.succeeding(), ticketRepository, emailSender
         );
 
-        PurchaseResult result = service.purchase(customer, trajetId,
+        PurchaseResult result = sut.purchase(customer, trajetId,
                 List.of(TicketRequest.automaticSeat(new Passenger(PassengerId.newId(), "Bob", 30))));
 
         assertEquals(1, result.tickets().size());
