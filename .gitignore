@@ -42,3 +42,7 @@ build/
 # Working document used to drive the construction of this repository.
 # Not part of the deliverable, must never be committed.
 AGENT.md*
+
+# Udemy course production planning (business/marketing, not part of the
+# pedagogical deliverable). Not for the public repo.
+UDEMY-CURRICULUM.md
