@@ -1,6 +1,7 @@
 package demo;
 
 import domain.Ticket;
+import domain.TrajetId;
 import ports.TicketRepository;
 
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ public class InMemoryTicketRepository implements TicketRepository {
         tickets.addAll(ticketsToSave);
     }
 
-    public List<Ticket> all() {
-        return List.copyOf(tickets);
+    @Override
+    public List<Ticket> findByTrajetId(TrajetId trajetId) {
+        return tickets.stream().filter(ticket -> ticket.trajetId().equals(trajetId)).toList();
     }
 }
