@@ -8,7 +8,6 @@ import domain.Passenger;
 import domain.SeatSelection;
 import domain.SeatId;
 import domain.Ticket;
-import domain.TicketId;
 import domain.Trajet;
 import domain.TrajetId;
 import domain.TrajetSeat;
@@ -20,10 +19,9 @@ import ports.TrajetRepository;
 import ports.TrajetSeatRepository;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Orchestrates the "purchase tickets" use case: check availability, assign seats, price the
@@ -84,30 +82,26 @@ public class PurchaseTicketApplicationService {
     }
 
     private List<Assignment> assignSeats(TrajetId trajetId, List<TicketRequest> requests) {
-        Set<SeatId> chosenSeatIds = requests.stream()
-                .filter(TicketRequest::hasChosenSeat)
-                .map(TicketRequest::chosenSeatId)
-                .collect(Collectors.toSet());
-        int automaticSeatsNeeded = requests.size() - chosenSeatIds.size();
-
-        // Fetch enough candidates to still have automaticSeatsNeeded left over once the
-        // explicitly chosen seats (which may appear in this "available" batch too) are excluded.
-        Iterator<TrajetSeat> automaticSeats = trajetSeatRepository
-                .findAvailableSeats(trajetId, automaticSeatsNeeded + chosenSeatIds.size())
-                .stream()
-                .filter(seat -> !chosenSeatIds.contains(seat.seatId()))
-                .limit(automaticSeatsNeeded)
-                .iterator();
-
+        Set<SeatId> claimedSeatIds = new HashSet<>();
         List<Assignment> assignments = new ArrayList<>();
+
         for (TicketRequest request : requests) {
             TrajetSeat seat = request.hasChosenSeat()
                     ? trajetSeatRepository.find(trajetId, request.chosenSeatId())
                         .orElseThrow(() -> new IllegalArgumentException("Unknown seat " + request.chosenSeatId()))
-                    : automaticSeats.next();
+                    : pickNextAvailableSeat(trajetId, claimedSeatIds);
+            claimedSeatIds.add(seat.seatId());
             assignments.add(new Assignment(request, seat));
         }
         return assignments;
+    }
+
+    /** Picks the next available seat not already claimed earlier in this same purchase. */
+    private TrajetSeat pickNextAvailableSeat(TrajetId trajetId, Set<SeatId> claimedSeatIds) {
+        return trajetSeatRepository.findAvailableSeats(trajetId, claimedSeatIds.size() + 1).stream()
+                .filter(seat -> !claimedSeatIds.contains(seat.seatId()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No available seat left for trajet " + trajetId.value()));
     }
 
     private Order buildOrder(Customer customer, Trajet trajet, List<Assignment> assignments) {
@@ -132,7 +126,7 @@ public class PurchaseTicketApplicationService {
 
     private List<Ticket> issueTickets(TrajetId trajetId, List<Assignment> assignments) {
         return assignments.stream()
-                .map(a -> new Ticket(TicketId.newId(), trajetId, a.request().passenger().id(), a.seat().seatId()))
+                .map(a -> Ticket.issueFor(trajetId, a.request().passenger().id(), a.seat().seatId()))
                 .toList();
     }
 
