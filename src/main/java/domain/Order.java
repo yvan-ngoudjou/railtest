@@ -8,7 +8,7 @@ import java.util.List;
  */
 public final class Order {
 
-    private static final int PREMIUM_DISCOUNT_PERCENT = 10;
+    private final PricingPolicy pricingPolicy = new PricingPolicy();
 
     private final OrderId id;
     private final Customer customer;
@@ -44,10 +44,9 @@ public final class Order {
         if (passenger.isChild()) {
             return Money.ZERO;
         }
-        Money transportPrice = customer.isPremium()
-                ? trajet.basePrice().minusPercentage(PREMIUM_DISCOUNT_PERCENT)
-                : trajet.basePrice();
-        return transportPrice.plus(seatSelectionFor(passenger).fee());
+        Money transportPrice = pricingPolicy.transportPriceFor(customer, trajet);
+        Money seatFee = pricingPolicy.seatFeeFor(seatSelectionFor(passenger));
+        return transportPrice.plus(seatFee);
     }
 
     private SeatSelection seatSelectionFor(Passenger passenger) {
