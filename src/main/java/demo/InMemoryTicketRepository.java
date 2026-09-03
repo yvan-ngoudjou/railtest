@@ -1,0 +1,21 @@
+package demo;
+
+import domain.Ticket;
+import ports.TicketRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class InMemoryTicketRepository implements TicketRepository {
+
+    private final List<Ticket> tickets = new ArrayList<>();
+
+    @Override
+    public void saveAll(List<Ticket> ticketsToSave) {
+        tickets.addAll(ticketsToSave);
+    }
+
+    public List<Ticket> all() {
+        return List.copyOf(tickets);
+    }
+}
