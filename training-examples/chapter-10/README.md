@@ -28,7 +28,7 @@ Maintenabilité : élevée — fixture courte, un seul Act, un nom explicite.
 Compromis : ne dit rien sur l'orchestration globale d'un achat (ce n'est pas son rôle).
 ```
 
-### `application.PurchaseTicketApplicationServiceTest#successful_purchase_sends_a_purchase_confirmation`
+### `application.PurchaseTicketApplicationServiceTest#successful_purchase_sends_a_purchase_confirmation_for_every_issued_ticket`
 ```text
 Protection contre les régressions : forte sur l'effet "confirmation envoyée".
 Résistance au refactoring : bonne — reste vert malgré les commits 07, 08 et 09, car il n'observe

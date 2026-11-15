@@ -54,7 +54,7 @@ Le nombre de sièges automatiquement libérés après un paiement échoué.
 
 ### Pourquoi il est fragile
 `version` n'a aucun sens métier observable : c'est un simple compteur technique préparé pour un
-futur optimistic locking (voir `TrajetSeat`, §9 du cahier des charges). Le figer dans un test le
+futur optimistic locking (voir `TrajetSeat`). Le figer dans un test le
 transforme en pseudo-API publique alors qu'il ne devrait jamais être lu par personne d'autre que
 la couche de persistance.
 

@@ -6,8 +6,8 @@ le code ne garantit ni sa pertinence ni sa résistance au refactoring : seuls le
 chapitres précédents (comportement observable, nommage, niveau d'abstraction) le garantissent.
 
 **Important** : la règle utilisée ici ("réduction senior") est un kata isolé, à but pédagogique
-uniquement. Elle n'est **pas** intégrée à `src/main` : le cahier des charges du projet ne prévoit
-pas de réduction senior, et l'ajouter au domaine réel enrichirait le système au-delà de sa
+uniquement. Elle n'est **pas** intégrée à `src/main` : les règles métier du projet (voir le
+README principal) ne prévoient pas de réduction senior, et l'ajouter au domaine réel enrichirait le système au-delà de sa
 spécification. Le code de ce chapitre reste donc entièrement dans `training-examples/`.
 
 ## Contexte fonctionnel

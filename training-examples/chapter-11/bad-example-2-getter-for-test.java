@@ -21,8 +21,8 @@ class VersionCounterBadExampleTest {
         // Nécessiterait d'ajouter TrajetSeat.getVersion() uniquement pour ce test :
         // assertEquals(2, seat.getVersion());
         //
-        // "version" n'a de sens que pour un futur mécanisme d'optimistic locking (§9 du cahier
-        // des charges) : ce n'est un comportement observable pour personne d'autre que la couche
-        // de persistance, qui n'existe pas dans ce projet.
+        // "version" n'a de sens que pour un futur mécanisme d'optimistic locking : ce n'est un
+        // comportement observable pour personne d'autre que la couche de persistance, qui
+        // n'existe pas dans ce projet.
     }
 }

@@ -5,7 +5,7 @@ Montrer que "port" et "mock automatique" sont deux notions différentes : une fr
 architecturale n'est pas nécessairement une frontière observable.
 
 ## Contexte fonctionnel
-Le projet définit cinq ports : `TrajetRepository`, `TrajetSeatRepository`, `TrainRepository`,
+Le projet définit sept ports : `TrajetRepository`, `TrajetSeatRepository`, `TrainRepository`,
 `TrainMovementRepository`, `TicketRepository`, `PaymentGateway`, `EmailSender`.
 
 ## Comportement étudié

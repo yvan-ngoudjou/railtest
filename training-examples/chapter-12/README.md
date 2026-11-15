@@ -40,7 +40,7 @@ réduit l'Arrange sans changer le design de production.
 
 ## Refactoring proposé
 Ne pas refactorer `PurchaseTicketApplicationService` juste pour "faciliter les mocks" : il a
-exactement les collaborateurs que l'orchestration demande (§19 du cahier des charges). Le vrai
+exactement les collaborateurs que l'orchestration demande. Le vrai
 levier ici est le choix du test double, pas le découpage du service.
 
 ## Résultat attendu après refactoring

@@ -25,8 +25,7 @@ refactoring, sans que le comportement observable change).
 ## Bon exemple
 [`good-example.java`](good-example.java) — `TrajetSeatRepository` reste un Stub (on configure sa
 réponse, on ne vérifie jamais son appel) ; `EmailSender` est un Mock légitime, car l'envoi de la
-confirmation est lui-même l'effet observable attendu par le use case (voir aussi §18 du cahier des
-charges du projet).
+confirmation est lui-même l'effet observable attendu par le use case.
 
 ## Refactoring proposé
 Changer la façon dont `PurchaseTicketApplicationService` interroge la disponibilité (par exemple,

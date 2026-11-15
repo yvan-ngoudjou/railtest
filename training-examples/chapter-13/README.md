@@ -46,7 +46,8 @@ l'Application Service protège que ces règles sont assemblées dans le bon ordr
 gestion des cas d'échec.
 
 ## Refactoring proposé
-Aucun : ce chapitre est une lecture croisée des tests déjà écrits (Étapes 2 et 3 du projet).
+Aucun : ce chapitre est une lecture croisée des tests déjà écrits (`src/test/java/domain` et
+`src/test/java/application`).
 
 ## Résultat attendu après refactoring
 Sans objet.
