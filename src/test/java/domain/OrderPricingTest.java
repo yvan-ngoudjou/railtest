@@ -54,10 +54,11 @@ class OrderPricingTest {
         Customer customer = new Customer(CustomerId.newId(), "parent@example.com", false);
         Passenger child = new Passenger(PassengerId.newId(), "Leo", 9);
         SeatSelection chosenSeat = new SeatSelection(child.id(), SeatId.newId(), true);
-
         Order order = new Order(OrderId.newId(), customer, TRAJET, List.of(child), List.of(chosenSeat));
 
-        assertEquals(Money.ZERO, order.evaluatePrice());
+        Money price = order.evaluatePrice();
+
+        assertEquals(Money.ZERO, price);
     }
 
     @Test
